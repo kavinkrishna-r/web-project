@@ -1,10 +1,18 @@
 const db = require("../../../config/db");
-
+const { body, validationResult } = require('express-validator');
 const controller = require("../controllers/index");
 const router = require("express").Router();
-const upload = require("../../../config/upload")
+const upload = require("../../../config/upload");
 
+router.post(
+  "/registerUser",
+  body('email').isEmail().withMessage("Invalid Email"),
+  body('password').isLength({
+      min: 6
+  }).withMessage("minimum 6 Characters"),
 
-router.post("/registerUser", upload.single("filename"), controller.registerUser);
+  upload.single("fileName"),
+  controller.registerUser
+);
 
 module.exports = router;

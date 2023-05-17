@@ -16,7 +16,7 @@ export default function Register() {
     setlName(e.target.value);
   };
   const handleEmail = (e) => {
-    setlName(e.target.value);
+    setEmail(e.target.value);
   };
 
   const handlePassword = (e) => {
@@ -32,9 +32,9 @@ export default function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     var formData = new FormData();
-    formData.append("file", profileImg);
-    formData.append("fName", fName);
-    formData.append("lName", lName);
+    formData.append("fileName", profileImg);
+    formData.append("first_name", fName);
+    formData.append("last_name", lName);
     formData.append("email", email);
     formData.append("password", password);
     formData.append("confirm_password", confirm_password);
@@ -44,24 +44,27 @@ export default function Register() {
         "Content-Type": "multipart/form-data",
       },
     };
-    const data = await axios.post("http://localhost:3001/api/register",formData,config);
-
-    if (data.status === 201) {
-      alert("User added successfullky!");
-    } else {
-      alert("Failed!");
+   try{ 
+    const response = await axios.post("http://localhost:3001/api/register/registerUser",formData,config);
+    console.log(response)
+    if (response.data.status) {
+      alert("User added successfully!");
+    } 
+   }  catch(err) {
+      alert("Failed!",err);
     }
-
+   
   }
+  
 
   return (
     <>
       <div class="signup-form">
-        <form action="/examples/actions/confirmation.php" method="post">
           <h2>Register</h2>
           <p class="hint-text">
             Create your account. It's free and only takes a minute.
           </p>
+         <form action="/validate-form"> 
           <div class="form-group">
             <div class="row">
               <div class="col">
@@ -73,6 +76,7 @@ export default function Register() {
                   required="required"
                   onChange={handleFname}
                 />
+            
               </div>
               <div class="col">
                 <input
@@ -119,13 +123,13 @@ export default function Register() {
 
           <div class="form-group">
             <div class="mb-3">
-              <label for="formprofileImg" class="form-label">
-                upload proprofileImg image
+              <label for="formfile" class="form-label">
+                upload profile image
               </label>
               <input
                 class="form-control"
-                type="profileImg"
-                id="formprofileImg"
+                type="file"
+                id="formfile"
                 onChange={handleprofileImgUpload}
               />
             </div>
@@ -137,11 +141,12 @@ export default function Register() {
             </label>
           </div>
           <div class="form-group">
-            <button type="submit" class="btn btn-success btn-lg btn-block" onSubmit={handleSubmit}>
+            <button type="submit" class="btn btn-success btn-lg btn-block" onClick={handleSubmit}>
               Register Now
             </button>
-          </div>
-        </form>
+            </div>
+          </form> 
+          
         <div class="text-center">
           Already have an account? <a href="#">Sign in</a>
         </div>

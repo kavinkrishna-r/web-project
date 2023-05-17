@@ -3,9 +3,12 @@ const cors = require("cors");
 const db = require("./config/db");
 const app = express();
 const myRoute = require("./routes");
+const bodyParser = require('body-parser');
 
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 myRoute(app);
 
