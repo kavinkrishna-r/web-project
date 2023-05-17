@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Register() {
@@ -8,6 +9,8 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirm_password, setConfirm_password] = useState("");
   const [profileImg, setprofileImg] = useState("");
+
+  const Navigate = useNavigate();
 
   const handleFname = (e) => {
     setFname(e.target.value);
@@ -49,9 +52,12 @@ export default function Register() {
     console.log(response)
     if (response.data.status) {
       alert("User added successfully!");
-    } 
+      Navigate("/login")
+    } else{
+      alert(response.data.message);
+    }
    }  catch(err) {
-      alert("Failed!",err);
+      alert("Failed to add User!",err);
     }
    
   }
@@ -141,7 +147,7 @@ export default function Register() {
             </label>
           </div>
           <div class="form-group">
-            <button type="submit" class="btn btn-success btn-lg btn-block" onClick={handleSubmit}>
+            <button type="submit" class="btn btn-success btn-lg btn-block" onClick={handleSubmit} required="required">
               Register Now
             </button>
             </div>
