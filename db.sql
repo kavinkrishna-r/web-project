@@ -5,7 +5,6 @@ create table registered_users(
    last_name varchar(100) not null,
    email varchar(256) not null,
    pass varchar(100) not null,
-   confirm_pass varchar(100) not null,
    image varchar(100)
 );
 select * from registered_users;
